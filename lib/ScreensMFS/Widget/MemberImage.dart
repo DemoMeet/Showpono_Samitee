@@ -6,7 +6,6 @@ import 'package:image_picker_web/image_picker_web.dart';
 
 import '../../Constants/Constants.dart';
 
-
 class MemberImage extends StatefulWidget {
   Uint8List pickedImage;
   bool img = false;
@@ -163,7 +162,8 @@ class _MemberImageState extends State<MemberImage> {
                                                 child: ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       side: BorderSide(
@@ -373,7 +373,8 @@ class _MemberImageState extends State<MemberImage> {
                                                     child: ElevatedButton(
                                                       style: ElevatedButton
                                                           .styleFrom(
-                                                        backgroundColor: Colors.white,
+                                                        backgroundColor:
+                                                            Colors.white,
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           side: BorderSide(
@@ -587,7 +588,8 @@ class _MemberImageState extends State<MemberImage> {
                                                     child: ElevatedButton(
                                                       style: ElevatedButton
                                                           .styleFrom(
-                                                        backgroundColor: Colors.white,
+                                                        backgroundColor:
+                                                            Colors.white,
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           side: BorderSide(
