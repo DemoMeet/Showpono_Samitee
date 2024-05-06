@@ -260,13 +260,15 @@ class _ApproveLoanSanctionRejectState extends State<ApproveLoanSanctionReject> {
                                             )),
                                       ),
                                       DataCell(
-                                        Text(
-                                            snapshot.data[index].somiteename +
-                                                " " +
-                                                snapshot.data[index].somiteeid,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                            )),
+                                      Container(width:200,
+                                          child: Text(
+                                              snapshot.data[index].somiteename +
+                                                  " " +
+                                                  snapshot.data[index].somiteeid,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                              )),
+                                        ),
                                       ),
                                       DataCell(
                                         Text(snapshot.data[index].memberid,

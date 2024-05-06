@@ -74,7 +74,6 @@ class _ClosedMembersListState extends State<ClosedMembersList> {
                 ownhomestead: element["Own HomeStead"],
                 relationwithhead: element["Relation With Head"],
                 landdesc: element["Land Desc"],
-                
                 remarks: element["Remarks"],
                 imageurl: element["ImageURL"],
                 img: element["Image"],

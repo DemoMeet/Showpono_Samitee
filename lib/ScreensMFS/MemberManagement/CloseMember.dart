@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import '../../../Model/member.dart';
 import '../../../Model/somitee.dart';
 import '../../../route.dart';
@@ -207,7 +205,7 @@ class _CloseMemberState extends State<CloseMember> {
                   ssomitee: ssomitee,
                   close: true,
                   setupsomiti: _setupsomiti,
-                  active: false,
+                  active: true,
                   selectedsomiteeid: selectedsomiti,
                   onsubmit: _save,
                   somitee: somitee,

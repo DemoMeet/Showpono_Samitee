@@ -364,7 +364,7 @@ class _NavbarScreenMFSState extends State<NavbarScreenMFS> {
                     : SizedBox(),
                 closedArr[0]
                     ? Container(
-                        margin: EdgeInsets.only(left: 0, top: 120),
+                        margin: EdgeInsets.only(left: 0, top: 80),
                         color: AppColor_Blue,
                         // height: 800,
                         width: 250,
@@ -488,47 +488,47 @@ class _NavbarScreenMFSState extends State<NavbarScreenMFS> {
                                     ],
                                   )),
                             ),
-                            InkWell(
-                              onHover: (val) {
-                                setState(() {
-                                  if (val) {
-                                    itemColor2 = AppColor_hover1;
-                                    textColor2 = Colors.white;
-                                  } else {
-                                    itemColor2 = AppColor_Blue;
-                                    textColor2 = Colors.black;
-                                  }
-                                });
-                              },
-                              onTap: () {
-                                _transctionTogle_withdraw(0);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    top: 10, left: 20, right: 20, bottom: 10),
-                                height: 40,
-                                width: 200,
-                                color: itemColor2,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Withdraw",
-                                      style: TextStyle(
-                                        color: textColor2,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 73,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 12,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // InkWell(
+                            //   onHover: (val) {
+                            //     setState(() {
+                            //       if (val) {
+                            //         itemColor2 = AppColor_hover1;
+                            //         textColor2 = Colors.white;
+                            //       } else {
+                            //         itemColor2 = AppColor_Blue;
+                            //         textColor2 = Colors.black;
+                            //       }
+                            //     });
+                            //   },
+                            //   onTap: () {
+                            //     _transctionTogle_withdraw(0);
+                            //   },
+                            //   child: Container(
+                            //     padding: EdgeInsets.only(
+                            //         top: 10, left: 20, right: 20, bottom: 10),
+                            //     height: 40,
+                            //     width: 200,
+                            //     color: itemColor2,
+                            //     child: Row(
+                            //       children: [
+                            //         Text(
+                            //           "Withdraw",
+                            //           style: TextStyle(
+                            //             color: textColor2,
+                            //             fontSize: 12,
+                            //           ),
+                            //         ),
+                            //         SizedBox(
+                            //           width: 73,
+                            //         ),
+                            //         Icon(
+                            //           Icons.arrow_forward_ios,
+                            //           size: 12,
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             InkWell(
                               onHover: (val) {
                                 setState(() {
