@@ -551,7 +551,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 ),
                               ],
                               rows: [
-                                for(var ele in _expenses)
+                                for (var ele in _expenses)
                                   DataRow(
                                     cells: [
                                       DataCell(Text(ele["sl"].toString(),
@@ -563,13 +563,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                             fontSize: 12,
                                           ))),
                                       DataCell(
-                                        Text(DateFormat.yMMMMd().format(ele["Date"]),
+                                        Text(
+                                            DateFormat.yMMMMd()
+                                                .format(ele["Date"]),
                                             style: TextStyle(
                                               fontSize: 12,
                                             )),
                                       ),
                                       DataCell(
-                                          Text(ele["amount"].toStringAsFixed(1),textAlign: TextAlign.end,
+                                          Text(ele["amount"].toStringAsFixed(1),
+                                              textAlign: TextAlign.end,
                                               style: TextStyle(
                                                 fontSize: 12,
                                               ))),
