@@ -47,7 +47,7 @@ class _MemberLedgerState extends State<MemberLedger> {
         .get()
         .then((querySnapshot) {
       for (var element in querySnapshot.docs) {
-        if (element["Status"]) {
+        if (element["Status"] && !element['Dead']) {
           memberss.add(Memberss(
               somiteename: element["Somitee Name"],
               somiteeid: element["Somitee ID"],

@@ -197,22 +197,20 @@ class _DepositCorrectionRequestState extends State<DepositCorrectionRequest> {
       });
     }
 
-    Future<void> _selectDate(BuildContext context) async {
+    Future<void> _selectDate() async {
       final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate ?? DateTime.now(),
+       // initialDate: selectedDate ?? DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2101),
         selectableDayPredicate: (DateTime day) {
           if (memberselection) {
-            return selectedmemberss.deposit.any(
-                  (entry) {
-                DateTime depositDate = DateTime.parse(entry["date"]).toLocal();
-                return day.year == depositDate.year &&
-                    day.month == depositDate.month &&
-                    day.day == depositDate.day;
-              },
-            );
+            return selectedmemberss.deposit.any((entry) {
+              DateTime depositDate = DateTime.parse(entry["date"]).toLocal();
+              return day.year == depositDate.year &&
+                  day.month == depositDate.month &&
+                  day.day == depositDate.day;
+            });
           } else {
             return false;
           }
@@ -241,6 +239,7 @@ class _DepositCorrectionRequestState extends State<DepositCorrectionRequest> {
 
       }
     }
+
     void _onsubmit() {
       print(selectedsomiti);
       print(selectedmemberss);

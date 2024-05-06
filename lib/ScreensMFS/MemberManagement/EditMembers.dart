@@ -84,7 +84,7 @@ class _EditMembersState extends State<EditMembers> {
           .get()
           .then((querySnapshot) {
         for (var element in querySnapshot.docs) {
-          if (selectedsomiti.id == element["Somitee ID"]) {
+          if (selectedsomiti.id == element["Somitee ID"] && !element['Dead']) {
             somitee.add(Memberss(
                 somiteename: element["Somitee Name"] ?? '',
                 somiteeid: element["Somitee ID"] ?? '',
@@ -410,8 +410,7 @@ class _EditMembersState extends State<EditMembers> {
                                                           )),
                                                     ),
                                                     DataCell(
-                                                        snapshot.data[index]
-                                                                .sts
+                                                        snapshot.data[index].sts
                                                             ? Row(
                                                                 children: [
                                                                   Center(
@@ -599,8 +598,7 @@ class _EditMembersState extends State<EditMembers> {
                                                   ],
                                                 );
                                               } else {
-                                                if (snapshot
-                                                    .data[index].sts) {
+                                                if (snapshot.data[index].sts) {
                                                   return DataRow(
                                                     cells: [
                                                       DataCell(Text(

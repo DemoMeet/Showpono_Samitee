@@ -83,7 +83,7 @@ class _DepositCollectionRequestState extends State<DepositCollectionRequest> {
         QuerySnapshot querySnapshot =
             await FirebaseFirestore.instance.collection('Member').get();
         for (var element in querySnapshot.docs) {
-          if (selectedsomiti.id == element["Somitee ID"] && element["Status"]) {
+          if (selectedsomiti.id == element["Somitee ID"] && element["Status"]  && !element['Dead']) {
             if (element["Deposits"].toString() != 'null') {
               var deposits = element["Deposits"];
               if (deposits.isNotEmpty) {

@@ -13,7 +13,7 @@ class MemberDeposit extends StatefulWidget {
   bool memberssselected;
   var conamount, conremarks;
   void Function(int) setupmemberss;
-  void Function(BuildContext) selectDate;
+  void Function() selectDate;
   
   var selectreverce;
   var selectedDate;
@@ -314,7 +314,7 @@ class _MemberDepositState extends State<MemberDeposit> {
                               SizedBox(
                                 width: 300,
                                 child: InkWell(
-                                  onTap: () => widget.selectDate(context),
+                                  onTap: () => widget.selectDate(),
                                   child: AbsorbPointer(
                                     child: TextField(
                                       decoration: InputDecoration(
@@ -516,7 +516,7 @@ class _MemberDepositState extends State<MemberDeposit> {
                                     child: InkWell(
                                       onTap: () {
                                         if(widget.memberssselected){
-                                          widget.selectDate(context);
+                                          widget.selectDate();
                                         }
                                       },
                                       child: AbsorbPointer(
@@ -645,7 +645,7 @@ class _MemberDepositState extends State<MemberDeposit> {
                                   SizedBox(
                                     width: 300,
                                     child: InkWell(
-                                      onTap: () => widget.selectDate(context),
+                                      onTap: () => widget.selectDate(),
                                       child: AbsorbPointer(
                                         child: TextField(
                                           decoration: InputDecoration(
@@ -801,7 +801,7 @@ class _MemberDepositState extends State<MemberDeposit> {
                                   SizedBox(
                                     width: 200,
                                     child: InkWell(
-                                      onTap: () => widget.selectDate(context),
+                                      onTap: () => widget.selectDate(),
                                       child: AbsorbPointer(
                                         child: TextField(
                                           decoration: InputDecoration(
@@ -921,7 +921,7 @@ class _MemberDepositState extends State<MemberDeposit> {
                                   SizedBox(
                                     width: 200,
                                     child: InkWell(
-                                      onTap: () => widget.selectDate(context),
+                                      onTap: () => widget.selectDate(),
                                       child: AbsorbPointer(
                                         child: TextField(
                                           decoration: InputDecoration(

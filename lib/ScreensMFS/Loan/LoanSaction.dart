@@ -94,7 +94,7 @@ class _LoanSanctionState extends State<LoanSanction> {
         .get()
         .then((querySnapshot) {
       for (var element in querySnapshot.docs) {
-        if (element["Status"]) {
+        if (element["Status"] && !element['Dead']) {
           allmemberss.add(Memberss(
               somiteename: element["Somitee Name"],
               somiteeid: element["Somitee ID"],
