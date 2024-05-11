@@ -1,5 +1,9 @@
 import '../Model/scheme.dart';
 
+
+const double perSharePrice = 50000;
+const double perShareAddmissionFee = 3000;
+
 const List<String> UserTypeList = [
   'Super Admin',
   'Admin',

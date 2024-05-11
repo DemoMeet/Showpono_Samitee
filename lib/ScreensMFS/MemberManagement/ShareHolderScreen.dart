@@ -26,9 +26,16 @@ class ShareholderScreen extends StatefulWidget {
 
 class _ShareholderScreenState extends State<ShareholderScreen> {
   DateTime selectedDate = DateTime.now();
-  var amounttxt = TextEditingController();
+  var noofshare = TextEditingController();
+  var admissionfee = TextEditingController(text: '0');
+  var shareamount = TextEditingController(text: '0');
+
+  var due = TextEditingController(text: '0');
+  var addfee = TextEditingController(text: '0');
+  var samount = TextEditingController(text: '0');
   String electeddate = '';
-  bool click = false;  bool mmems = false;
+  bool click = false;
+  bool mmems = false;
   List<Memberss> memberss = [];
   var selectedmemberss;
   var sselectedmemberss;
@@ -106,6 +113,19 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
     // TODO: implement initState
     super.initState();
     fetch();
+  }
+
+  _calculate() {
+    setState(() {
+      double noshare = double.parse(noofshare.text);
+      samount.text = (noshare * perSharePrice).toString();
+      addfee.text = (noshare * perShareAddmissionFee).toString();
+      due.text =
+          (((noshare * perSharePrice) + (noshare * perShareAddmissionFee)) -
+                  double.parse(shareamount.text) -
+                  double.parse(admissionfee.text))
+              .toString();
+    });
   }
 
   clr() {
@@ -284,18 +304,22 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                             ),
                           ),
                           Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -307,7 +331,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                 TextSpan(
                                                     text: ' *',
                                                     style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         color: Colors.red,
                                                         fontSize: 14)),
                                                 TextSpan(
@@ -331,18 +356,19 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                     color: AppColor_Black),
                                               ),
                                               child: DropdownSearch<Memberss>(
-                                                filterFn:
-                                                    (Memberss item, String query) {
+                                                filterFn: (Memberss item,
+                                                    String query) {
                                                   return item.filterFn(query);
                                                 },
                                                 popupProps: PopupProps.menu(
                                                   showSearchBox: true,
                                                   itemBuilder:
                                                       (BuildContext context,
-                                                      Memberss item,
-                                                      bool isSelected) {
+                                                          Memberss item,
+                                                          bool isSelected) {
                                                     return Container(
-                                                      padding: EdgeInsets.all(15),
+                                                      padding:
+                                                          EdgeInsets.all(15),
                                                       child: Text(
                                                         "${item.firstname} ${item.lastname} - ${item.id}",
                                                       ),
@@ -351,12 +377,14 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                   fit: FlexFit.loose,
                                                   showSelectedItems: false,
                                                   menuProps: const MenuProps(
-                                                    backgroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                     elevation: 100,
                                                   ),
                                                   searchFieldProps:
-                                                  const TextFieldProps(
-                                                    style: TextStyle(fontSize: 12),
+                                                      const TextFieldProps(
+                                                    style:
+                                                        TextStyle(fontSize: 12),
                                                     decoration: InputDecoration(
                                                       isDense: true,
                                                       hintText: "Search...",
@@ -364,24 +392,25 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                   ),
                                                 ),
                                                 dropdownDecoratorProps:
-                                                const DropDownDecoratorProps(
+                                                    const DropDownDecoratorProps(
                                                   dropdownSearchDecoration:
-                                                  InputDecoration(
+                                                      InputDecoration(
                                                     enabledBorder:
-                                                    UnderlineInputBorder(
+                                                        UnderlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color:
-                                                          Colors.transparent),
+                                                          color: Colors
+                                                              .transparent),
                                                     ),
                                                     focusedBorder:
-                                                    UnderlineInputBorder(
+                                                        UnderlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color:
-                                                          Colors.transparent),
+                                                          color: Colors
+                                                              .transparent),
                                                     ),
                                                   ),
                                                 ),
-                                                dropdownBuilder: (context, item) {
+                                                dropdownBuilder:
+                                                    (context, item) {
                                                   if (item == null) {
                                                     return const Text(
                                                       "Enter Member Name/Code",
@@ -407,7 +436,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -430,8 +460,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                           SizedBox(
                                             width: 250,
                                             child: TextField(
-                                              controller: amounttxt,
-                                              keyboardType: TextInputType.number,
+                                              controller: addfee,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               readOnly: true,
                                               inputFormatters: [
                                                 FilteringTextInputFormatter
@@ -440,8 +471,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                               ),
                                             ),
                                           ),
@@ -451,7 +483,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -479,9 +512,17 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                           SizedBox(
                                             width: 210,
                                             child: TextField(
-                                              controller: amounttxt,
-                                              keyboardType: TextInputType.number,
-                                              readOnly: true,
+                                              controller: admissionfee,
+                                              onChanged: (val) {
+                                                setState(() {
+                                                  if (val.isEmpty) {
+                                                    admissionfee.text = '0';
+                                                  }
+                                                });
+                                                    _calculate();
+                                              },
+                                              keyboardType:
+                                                  TextInputType.number,
                                               inputFormatters: [
                                                 FilteringTextInputFormatter
                                                     .digitsOnly
@@ -489,8 +530,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                               ),
                                             ),
                                           ),
@@ -500,7 +542,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -518,13 +561,14 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width:40,
+                                            width: 40,
                                           ),
                                           SizedBox(
                                             width: 250,
                                             child: TextField(
-                                              controller: amounttxt,
-                                              keyboardType: TextInputType.number,
+                                              controller: due,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               readOnly: true,
                                               inputFormatters: [
                                                 FilteringTextInputFormatter
@@ -533,8 +577,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                               ),
                                             ),
                                           ),
@@ -543,13 +588,15 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -561,7 +608,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                 TextSpan(
                                                     text: ' *',
                                                     style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         color: Colors.red,
                                                         fontSize: 14)),
                                                 TextSpan(
@@ -578,17 +626,30 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                           SizedBox(
                                             width: 250,
                                             child: TextField(
-                                              controller: amounttxt,
-                                              keyboardType: TextInputType.number,
+                                              controller: noofshare,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               inputFormatters: [
                                                 FilteringTextInputFormatter
                                                     .digitsOnly
                                               ],
+                                              onChanged: (val) {
+                                                setState(() {
+                                                  if (val.isEmpty) {
+                                                    noofshare.text;
+                                                    samount.text = '0';
+                                                    addfee.text = '0';
+                                                  } else {
+                                                    _calculate();
+                                                  }
+                                                });
+                                              },
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                               ),
                                             ),
                                           ),
@@ -598,7 +659,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -621,8 +683,10 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                           SizedBox(
                                             width: 250,
                                             child: TextField(
-                                              controller: amounttxt,readOnly:  true,
-                                              keyboardType: TextInputType.number,
+                                              controller: samount,
+                                              readOnly: true,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               inputFormatters: [
                                                 FilteringTextInputFormatter
                                                     .digitsOnly
@@ -630,8 +694,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                               ),
                                             ),
                                           ),
@@ -641,7 +706,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -669,8 +735,17 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                           SizedBox(
                                             width: 210,
                                             child: TextField(
-                                              controller: amounttxt,
-                                              keyboardType: TextInputType.number,
+                                              controller: shareamount,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              onChanged: (val) {
+                                                setState(() {
+                                                  if (val.isEmpty) {
+                                                    shareamount.text = '0';
+                                                  }
+                                                });
+                                                _calculate();
+                                              },
                                               inputFormatters: [
                                                 FilteringTextInputFormatter
                                                     .digitsOnly
@@ -678,8 +753,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                               ),
                                             ),
                                           ),
@@ -689,7 +765,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         height: 25,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           RichText(
                                             text: const TextSpan(
@@ -701,7 +778,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                 TextSpan(
                                                     text: ' *',
                                                     style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         color: Colors.red,
                                                         fontSize: 14)),
                                                 TextSpan(
@@ -728,7 +806,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                       borderSide: BorderSide(
                                                           color: Colors.grey),
                                                     ),
-                                                    hintText: selectedDate != null
+                                                    hintText: selectedDate !=
+                                                            null
                                                         ? "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"
                                                         : "Select a date",
                                                     hintStyle: TextStyle(
@@ -736,7 +815,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                       fontSize: 14,
                                                     ),
                                                     suffixIcon: Icon(
-                                                        Icons.calendar_month_sharp,
+                                                        Icons
+                                                            .calendar_month_sharp,
                                                         size: 14,
                                                         color: Colors.grey),
                                                   ),
