@@ -13,17 +13,17 @@ import '../../ScreensMFS/Widget/Appbool.dart';
 import '../Widget/NavBoolMFS.dart';
 import '../Widget/NavbarScreenMFS.dart';
 
-class ExpenseScreen extends StatefulWidget {
+class ShareholderScreen extends StatefulWidget {
   Navbool navbool;
   Appbool appbool;
 
-  ExpenseScreen({required this.appbool, required this.navbool});
+  ShareholderScreen({required this.appbool, required this.navbool});
 
   @override
-  State<ExpenseScreen> createState() => _ExpenseScreenState();
+  State<ShareholderScreen> createState() => _ShareholderScreenState();
 }
 
-class _ExpenseScreenState extends State<ExpenseScreen> {
+class _ShareholderScreenState extends State<ShareholderScreen> {
   var selectedString;
   DateTime selectedDate = DateTime.now();
   var amounttxt = TextEditingController();

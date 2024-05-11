@@ -7,6 +7,8 @@ const memberegistrationPageRoute = "/memberregistration";
 const memberlistPageRoute = "/memberlist";
 const memberclosingPageRoute = "/memberclosing";
 const deadmemberPageRoute = "/deadmemberlist";
+const shareholderinfoPageRoute = "/shareholderinfo";
+const membersfeeandothersPageRoute = "/membersfeeandothers";
 const closingmemberrequestPageRoute = "/closingmemberrequest";
 const memberEditPageRoute = "/memberedit";
 

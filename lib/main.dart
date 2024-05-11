@@ -40,7 +40,9 @@ import 'ScreensMFS/MemberManagement/DeadMemberInfo.dart';
 import 'ScreensMFS/MemberManagement/EditMembers.dart';
 import 'ScreensMFS/MemberManagement/MemberManagement.dart';
 import 'ScreensMFS/MemberManagement/MemberRegistration.dart';
+import 'ScreensMFS/MemberManagement/MemberSecurityAndOtherFee.dart';
 import 'ScreensMFS/MemberManagement/MemberUpdate.dart';
+import 'ScreensMFS/MemberManagement/ShareHolderScreen.dart';
 import 'ScreensMFS/Reports/DailyAffairStatement.dart';
 import 'ScreensMFS/Reports/GeneralLedgerStatement.dart';
 import 'ScreensMFS/Reports/ProfitLossStatement.dart';
@@ -346,6 +348,20 @@ class MyApp extends StatelessWidget {
                   appbool: appbool,
                   navbool: navbool,
                 ),
+            middlewares: [AuthMiddleware()]),
+        GetPage(
+            name: shareholderinfoPageRoute,
+            page: () => ShareholderScreen(
+              appbool: appbool,
+              navbool: navbool,
+            ),
+            middlewares: [AuthMiddleware()]),
+        GetPage(
+            name: membersfeeandothersPageRoute,
+            page: () => MemberSecurityAndOtherFee(
+              appbool: appbool,
+              navbool: navbool,
+            ),
             middlewares: [AuthMiddleware()]),
         GetPage(
             name: dailyglsummaryPageRoute,
