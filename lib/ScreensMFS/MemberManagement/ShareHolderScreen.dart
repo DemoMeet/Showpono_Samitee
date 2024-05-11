@@ -29,6 +29,8 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
   var noofshare = TextEditingController();
   var admissionfee = TextEditingController(text: '0');
   var shareamount = TextEditingController(text: '0');
+  final TextEditingController _amountController = TextEditingController();
+  final Rx<DateTime> _selectedDate = DateTime.now().obs;
 
   var due = TextEditingController(text: '0');
   var addfee = TextEditingController(text: '0');
@@ -42,6 +44,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
   List<Map> _expenses = [];
 
   Future<void> fetch() async {
+    clr();
     _expenses = [];
     int i = 0;
     await FirebaseFirestore.instance
@@ -91,19 +94,25 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
         }
       }
     });
-    await FirebaseFirestore.instance
-        .collection('ExpenseItem')
-        .get()
-        .then((que) {
-      for (var ele in que.docs) {
-        i++;
-        _expenses.add({
-          'ctgry': ele['Expense Category'],
-          'amount': ele['Amount'],
-          'Date': ele['Date'].toDate(),
-          'sl': i,
-        });
-      }
+
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('Shared Member').get();
+
+    querySnapshot.docs.forEach((DocumentSnapshot data) {
+      i++;
+      _expenses.add({
+        'Member Name': data['Member Name'],
+        'Member ID': data['Member ID'],
+        'History': data['History'],
+        'No of Shares': data['No of Shares'],
+        'Due': data['Due'],
+        'Admission Fee': data['Admission Fee'],
+        'Share Amount': data['Share Amount'],
+        'Paid Admission Fee': data['Paid Admission Fee'],
+        'Paid Share Amount': data['Paid Share Amount'],
+        'Date': data['Date'].toDate(),
+        'sl': i,
+      });
       setState(() {});
     });
   }
@@ -131,7 +140,13 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
   clr() {
     var ss;
     selectedmemberss = ss;
-
+    selectedDate = DateTime.now();
+    noofshare = TextEditingController();
+    admissionfee = TextEditingController(text: '0');
+    shareamount = TextEditingController(text: '0');
+    due = TextEditingController(text: '0');
+    addfee = TextEditingController(text: '0');
+    samount = TextEditingController(text: '0');
     setState(() {});
   }
 
@@ -149,6 +164,18 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
         setState(() {
           selectedDate = picked;
         });
+      }
+    }
+
+    Future<void> _selectDates(BuildContext context) async {
+      final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate.value,
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+      );
+      if (pickedDate != null && pickedDate != _selectedDate.value) {
+        _selectedDate.value = pickedDate;
       }
     }
 
@@ -200,60 +227,110 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                 ),
                                 Spacer(),
                                 InkWell(
-                                  onTap: () {
-                                    // if (selectedString == null ||
-                                    //     amounttxt.text.isEmpty) {
-                                    //   Get.snackbar("Expense Adding Failed.",
-                                    //       "Some Required Fields are Empty",
-                                    //       snackPosition: SnackPosition.BOTTOM,
-                                    //       colorText: Colors.white,
-                                    //       backgroundColor: Colors.red,
-                                    //       margin: EdgeInsets.zero,
-                                    //       duration: const Duration(
-                                    //           milliseconds: 2500),
-                                    //       boxShadows: [
-                                    //         BoxShadow(
-                                    //             color: Colors.grey,
-                                    //             offset: Offset(-100, 0),
-                                    //             blurRadius: 20),
-                                    //       ],
-                                    //       borderRadius: 0);
-                                    // } else {
-                                    //   FirebaseFirestore.instance
-                                    //       .collection('ExpenseItem')
-                                    //       .add({
-                                    //     'Expense Category': selectedString,
-                                    //     'Amount': double.parse(
-                                    //         amounttxt.text.toString()),
-                                    //     'Date': selectedDate,
-                                    //   }).then((value) async {
-                                    //     fetch();
-                                    //     Get.snackbar(
-                                    //         "Open Close Updated Successfully.",
-                                    //         "Refreshing the Page.",
-                                    //         snackPosition: SnackPosition.BOTTOM,
-                                    //         colorText: Colors.white,
-                                    //         backgroundColor: Colors.green,
-                                    //         margin: EdgeInsets.zero,
-                                    //         duration: const Duration(
-                                    //             milliseconds: 2500),
-                                    //         boxShadows: [
-                                    //           const BoxShadow(
-                                    //               color: Colors.grey,
-                                    //               offset: Offset(-100, 0),
-                                    //               blurRadius: 20),
-                                    //         ],
-                                    //         borderRadius: 0);
-                                    //   });
-                                    // }
+                                  onTap: () async {
+                                    if (selectedmemberss == null ||
+                                        noofshare.text.isEmpty ||
+                                        double.parse(noofshare.text) < 1) {
+                                      Get.snackbar(
+                                          "Shared Member Adding Failed.",
+                                          "Some Required Fields are Empty or Number of share is less then 1.",
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          colorText: Colors.white,
+                                          backgroundColor: Colors.red,
+                                          margin: EdgeInsets.zero,
+                                          duration: const Duration(
+                                              milliseconds: 2500),
+                                          boxShadows: [
+                                            const BoxShadow(
+                                                color: Colors.grey,
+                                                offset: Offset(-100, 0),
+                                                blurRadius: 20),
+                                          ],
+                                          borderRadius: 0);
+                                    } else {
+                                      DocumentSnapshot docSnapshot =
+                                          await FirebaseFirestore.instance
+                                              .collection('Shared Member')
+                                              .doc(selectedmemberss.id)
+                                              .get();
+                                      if (docSnapshot.exists) {
+                                        Get.snackbar(
+                                            "Shared Member Adding Failed.",
+                                            "Member is already a shared member.",
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            colorText: Colors.white,
+                                            backgroundColor: Colors.red,
+                                            margin: EdgeInsets.zero,
+                                            duration: const Duration(
+                                                milliseconds: 2500),
+                                            boxShadows: [
+                                              const BoxShadow(
+                                                  color: Colors.grey,
+                                                  offset: Offset(-100, 0),
+                                                  blurRadius: 20),
+                                            ],
+                                            borderRadius: 0);
+                                      } else {
+                                        List<Map<String, dynamic>> lll = [
+                                          {
+                                            'amount': double.parse(
+                                                    admissionfee.text) +
+                                                double.parse(shareamount.text),
+                                            'date': selectedDate,
+                                          }
+                                        ];
+                                        FirebaseFirestore.instance
+                                            .collection('Shared Member')
+                                            .doc(selectedmemberss.id)
+                                            .set({
+                                          'Member Name':
+                                              selectedmemberss.firstname +
+                                                  ' ' +
+                                                  selectedmemberss.lastname,
+                                          'Member ID': selectedmemberss.id,
+                                          'History': lll,
+                                          'No of Shares':
+                                              double.parse(noofshare.text),
+                                          'Due': double.parse(due.text),
+                                          'Admission Fee':
+                                              double.parse(addfee.text),
+                                          'Share Amount':
+                                              double.parse(samount.text),
+                                          'Paid Admission Fee':
+                                              double.parse(admissionfee.text),
+                                          'Paid Share Amount':
+                                              double.parse(shareamount.text),
+                                          'Date': selectedDate,
+                                        }).then((value) async {
+                                          fetch();
+                                          Get.snackbar(
+                                              "Shared Member Added Successfully.",
+                                              "Refreshing the Page.",
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              colorText: Colors.white,
+                                              backgroundColor: Colors.green,
+                                              margin: EdgeInsets.zero,
+                                              duration: const Duration(
+                                                  milliseconds: 2500),
+                                              boxShadows: [
+                                                const BoxShadow(
+                                                    color: Colors.grey,
+                                                    offset: Offset(-100, 0),
+                                                    blurRadius: 20),
+                                              ],
+                                              borderRadius: 0);
+                                        });
+                                      }
+                                    }
                                   },
                                   child: Container(
                                     height: 40,
                                     width: 90,
                                     color: Colors.green,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 10.0, left: 15),
+                                    child: const Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 10.0, left: 15),
                                       child: Text(
                                         "✓ Submit",
                                         style: TextStyle(
@@ -262,7 +339,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
@@ -272,9 +349,10 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                   child: Container(
                                     height: 40,
                                     width: 90,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 3.0, left: 15),
+                                    color: AppColor_yellow,
+                                    child: const Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 3.0, left: 15),
                                       child: Row(
                                         children: [
                                           Icon(
@@ -294,10 +372,9 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                         ],
                                       ),
                                     ),
-                                    color: AppColor_yellow,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                               ],
@@ -519,7 +596,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                     admissionfee.text = '0';
                                                   }
                                                 });
-                                                    _calculate();
+                                                _calculate();
                                               },
                                               keyboardType:
                                                   TextInputType.number,
@@ -802,19 +879,18 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                                   decoration: InputDecoration(
                                                     filled: true,
                                                     fillColor: Colors.white,
-                                                    border: OutlineInputBorder(
+                                                    border:
+                                                        const OutlineInputBorder(
                                                       borderSide: BorderSide(
                                                           color: Colors.grey),
                                                     ),
-                                                    hintText: selectedDate !=
-                                                            null
-                                                        ? "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"
-                                                        : "Select a date",
-                                                    hintStyle: TextStyle(
+                                                    hintText:
+                                                        "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}",
+                                                    hintStyle: const TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: 14,
                                                     ),
-                                                    suffixIcon: Icon(
+                                                    suffixIcon: const Icon(
                                                         Icons
                                                             .calendar_month_sharp,
                                                         size: 14,
@@ -863,7 +939,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 40.0),
                                   child: Text(
-                                    "All Expenses List",
+                                    "Add Share Holders Info List",
                                     style: TextStyle(
                                       color: AppColor,
                                       fontWeight: FontWeight.bold,
@@ -874,92 +950,410 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           MediaQuery.removePadding(
-                            context: context,
-                            removeTop: true,
-                            child: DataTable(
-                              showCheckboxColumn: false,
-                              border: TableBorder.all(
-                                  color: Colors.black26, width: 1),
-                              headingRowColor: MaterialStateProperty.all<Color>(
-                                  AppColor_Blue),
-                              columns: const [
-                                DataColumn(
-                                  label: Text(
-                                    'SL',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Text(
-                                    'Expense Category',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Text(
-                                    'Date',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Text('Amount',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                              ],
-                              rows: [
-                                for (var ele in _expenses)
-                                  DataRow(
-                                    cells: [
-                                      DataCell(Text(ele["sl"].toString(),
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                          ))),
-                                      DataCell(Text(ele["ctgry"],
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                          ))),
-                                      DataCell(
-                                        Text(
-                                            DateFormat.yMMMMd()
-                                                .format(ele["Date"]),
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                            )),
-                                      ),
-                                      DataCell(
-                                        Text(
-                                          ele["amount"].toStringAsFixed(1),
-                                          textAlign: TextAlign.end,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                              context: context,
+                              removeTop: true,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: DataTable(
+                                  showCheckboxColumn: false,
+                                  border: TableBorder.all(
+                                      color: Colors.black26, width: 1),
+                                  headingRowColor:
+                                      MaterialStateProperty.all<Color>(
+                                          AppColor_Blue),
+                                  columns: const [
+                                    DataColumn(
+                                      label: Text(
+                                        'SL',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    ],
-                                  )
-                              ],
-                            ),
-                          )
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'Member Name',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'No of Shares',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'Admission Fee',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'Share Amount',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'Due',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'Date',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: Text(
+                                        'Action',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  rows: _expenses.map<DataRow>((member) {
+                                    return DataRow(
+                                      cells: [
+                                        DataCell(Text(member['sl'].toString(),
+                                            style:
+                                                const TextStyle(fontSize: 12))),
+                                        DataCell(Text(member['Member Name'],
+                                            style:
+                                                const TextStyle(fontSize: 12))),
+                                        DataCell(Text(
+                                            member['No of Shares'].toString(),
+                                            style:
+                                                const TextStyle(fontSize: 12))),
+                                        DataCell(Text(
+                                            member['Admission Fee'].toString(),
+                                            style:
+                                                const TextStyle(fontSize: 12))),
+                                        DataCell(Text(
+                                            member['Share Amount'].toString(),
+                                            style:
+                                                const TextStyle(fontSize: 12))),
+                                        DataCell(Text(member['Due'].toString(),
+                                            style:
+                                                const TextStyle(fontSize: 12))),
+                                        DataCell(Text(
+                                            DateFormat.yMMMMd()
+                                                .format(member['Date']),
+                                            style: TextStyle(fontSize: 12))),
+                                        DataCell(IconButton(
+                                          onPressed: () {
+                                            Get.dialog(
+                                              Dialog(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                child: Container(
+                                                  width: 350,
+                                                  padding: EdgeInsets.all(30),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          "Add A Payment For Member : ${member['Member Name']}",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 18),
+                                                        ),
+                                                      ),
+                                                      const Text(
+                                                        'Amount',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      TextField(
+                                                        controller:
+                                                            _amountController,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 20),
+                                                      const Text(
+                                                        'Date',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      InkWell(
+                                                        onTap: () =>
+                                                            _selectDates(
+                                                                context),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(12),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .grey),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                          child: Obx(() => Text(
+                                                                '${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            16),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 20),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Get.back();
+                                                            },
+                                                            child: Center(
+                                                              child: Container(
+                                                                height: 40,
+                                                                width: 80,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(10))),
+                                                                child:
+                                                                    const Text(
+                                                                  "Cancel",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              if (_amountController
+                                                                  .text
+                                                                  .isEmpty) {
+                                                                Get.snackbar(
+                                                                    "Shared Member Payment Adding Failed.",
+                                                                    "Some Required Fields are Empty.",
+                                                                    snackPosition:
+                                                                        SnackPosition
+                                                                            .BOTTOM,
+                                                                    colorText:
+                                                                        Colors
+                                                                            .white,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red,
+                                                                    margin:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    duration:
+                                                                        const Duration(
+                                                                            milliseconds:
+                                                                                2500),
+                                                                    boxShadows: [
+                                                                      const BoxShadow(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          offset: Offset(
+                                                                              -100,
+                                                                              0),
+                                                                          blurRadius:
+                                                                              20),
+                                                                    ],
+                                                                    borderRadius:
+                                                                        0);
+                                                              } else {
+                                                                List<
+                                                                        Map<String,
+                                                                            dynamic>>
+                                                                    history =
+                                                                    List.from(
+                                                                        member[
+                                                                            'History']);
+                                                                Timestamp
+                                                                    selectedTimestamp =
+                                                                    Timestamp
+                                                                        .fromDate(
+                                                                            _selectedDate.value);
+                                                                history.add({
+                                                                  'amount': double.parse(
+                                                                      _amountController
+                                                                          .text),
+                                                                  'date':
+                                                                      selectedTimestamp,
+                                                                });
+
+                                                                double dd = member[
+                                                                        'Due'] -
+                                                                    double.parse(
+                                                                        _amountController
+                                                                            .text);
+                                                                print(dd
+                                                                    .toString());
+                                                                print(history
+                                                                    .toString());
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Shared Member')
+                                                                    .doc(member[
+                                                                        'Member ID'])
+                                                                    .update({
+                                                                  'History':
+                                                                      history,
+                                                                  'Due': dd,
+                                                                }).then((value) async {
+                                                                  Get.back();
+                                                                  fetch();
+                                                                  Get.snackbar(
+                                                                      "Shared Member Due Added Successfully.",
+                                                                      "Refreshing the Page.",
+                                                                      snackPosition:
+                                                                          SnackPosition
+                                                                              .BOTTOM,
+                                                                      colorText:
+                                                                          Colors
+                                                                              .white,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .green,
+                                                                      margin: EdgeInsets
+                                                                          .zero,
+                                                                      duration: const Duration(
+                                                                          milliseconds:
+                                                                              2500),
+                                                                      boxShadows: [
+                                                                        const BoxShadow(
+                                                                            color: Colors
+                                                                                .grey,
+                                                                            offset: Offset(-100,
+                                                                                0),
+                                                                            blurRadius:
+                                                                                20),
+                                                                      ],
+                                                                      borderRadius:
+                                                                          0);
+                                                                });
+                                                              }
+                                                            },
+                                                            child: Center(
+                                                              child: Container(
+                                                                height: 40,
+                                                                width: 80,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(10))),
+                                                                child:
+                                                                    const Text(
+                                                                  "Submit",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.payments_outlined,
+                                            color: Colors.blue,
+                                          ),
+                                        )),
+                                      ],
+                                    );
+                                  }).toList(),
+                                ),
+                              ))
                         ],
                       ),
                     ),
