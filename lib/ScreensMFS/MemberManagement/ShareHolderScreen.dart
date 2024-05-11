@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import '../../../../Constants/Constants.dart';
 import '../../Constants/values.dart';
+import '../../Model/member.dart';
 import '../../ScreensMFS/Widget/Appbar.dart';
 import '../../ScreensMFS/Widget/Appbool.dart';
 import '../Widget/NavBoolMFS.dart';
@@ -24,16 +25,65 @@ class ShareholderScreen extends StatefulWidget {
 }
 
 class _ShareholderScreenState extends State<ShareholderScreen> {
-  var selectedString;
   DateTime selectedDate = DateTime.now();
   var amounttxt = TextEditingController();
   String electeddate = '';
-  bool click = false;
+  bool click = false;  bool mmems = false;
+  List<Memberss> memberss = [];
+  var selectedmemberss;
+  var sselectedmemberss;
   List<Map> _expenses = [];
 
   Future<void> fetch() async {
     _expenses = [];
     int i = 0;
+    await FirebaseFirestore.instance
+        .collection('Member')
+        .get()
+        .then((querySnapshot) {
+      for (var element in querySnapshot.docs) {
+        if (element["Status"] && !element['Dead']) {
+          memberss.add(Memberss(
+              somiteename: element["Somitee Name"],
+              somiteeid: element["Somitee ID"],
+              membertype: element["Member Type"],
+              occupation: element["Occupation"],
+              firstname: element["First Name"],
+              dead: element['Dead'],
+              lastname: element["Last Name"],
+              fathername: element["Father Name"],
+              mothername: element["Mother Name"],
+              gender: element["Gender"] ?? '',
+              religion: element["Religion"],
+              nationalid: element["National ID"],
+              loanpendingamount: element["Loan Pending Amount"],
+              owndepositamount: element["Own deposit Amount"],
+              birthregi: element["Birth Registration"],
+              annualincome: element["Annual Income"],
+              sts: element["Status"],
+              age: element["Age"],
+              education: element["Education"],
+              maritalstatus: element["Marital Status"],
+              mobilenotype: element["Mobile No Type"],
+              mobilenno: element["Mobile No"],
+              presentadd: element["Present Address"],
+              parmaadd: element["Permanent Address"],
+              livingperiod: element["Living Period"],
+              nomaleearner: element["No Female Earner"],
+              nofemaleearner: element["No Male Earner"],
+              id: element.id,
+              headfamily: element["Head Family"],
+              ownhomestead: element["Own HomeStead"],
+              relationwithhead: element["Relation With Head"],
+              landdesc: element["Land Desc"],
+              remarks: element["Remarks"],
+              imageurl: element["ImageURL"],
+              img: element["Image"],
+              birthdate: element["Date Of Birth"].toDate(),
+              sl: 0));
+        }
+      }
+    });
     await FirebaseFirestore.instance
         .collection('ExpenseItem')
         .get()
@@ -56,6 +106,13 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
     // TODO: implement initState
     super.initState();
     fetch();
+  }
+
+  clr() {
+    var ss;
+    selectedmemberss = ss;
+
+    setState(() {});
   }
 
   @override
@@ -113,7 +170,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                 const Padding(
                                   padding: EdgeInsets.only(left: 40.0),
                                   child: Text(
-                                    "Add New Expense",
+                                    "Add Share Holder Info",
                                     style: TextStyle(
                                       color: AppColor,
                                       fontWeight: FontWeight.bold,
@@ -124,51 +181,51 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                 Spacer(),
                                 InkWell(
                                   onTap: () {
-                                    if (selectedString == null ||
-                                        amounttxt.text.isEmpty) {
-                                      Get.snackbar("Expense Adding Failed.",
-                                          "Some Required Fields are Empty",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          colorText: Colors.white,
-                                          backgroundColor: Colors.red,
-                                          margin: EdgeInsets.zero,
-                                          duration: const Duration(
-                                              milliseconds: 2000),
-                                          boxShadows: [
-                                            BoxShadow(
-                                                color: Colors.grey,
-                                                offset: Offset(-100, 0),
-                                                blurRadius: 20),
-                                          ],
-                                          borderRadius: 0);
-                                    } else {
-                                      FirebaseFirestore.instance
-                                          .collection('ExpenseItem')
-                                          .add({
-                                        'Expense Category': selectedString,
-                                        'Amount': double.parse(
-                                            amounttxt.text.toString()),
-                                        'Date': selectedDate,
-                                      }).then((value) async {
-                                        fetch();
-                                        Get.snackbar(
-                                            "Open Close Updated Successfully.",
-                                            "Refreshing the Page.",
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            colorText: Colors.white,
-                                            backgroundColor: Colors.green,
-                                            margin: EdgeInsets.zero,
-                                            duration: const Duration(
-                                                milliseconds: 2000),
-                                            boxShadows: [
-                                              const BoxShadow(
-                                                  color: Colors.grey,
-                                                  offset: Offset(-100, 0),
-                                                  blurRadius: 20),
-                                            ],
-                                            borderRadius: 0);
-                                      });
-                                    }
+                                    // if (selectedString == null ||
+                                    //     amounttxt.text.isEmpty) {
+                                    //   Get.snackbar("Expense Adding Failed.",
+                                    //       "Some Required Fields are Empty",
+                                    //       snackPosition: SnackPosition.BOTTOM,
+                                    //       colorText: Colors.white,
+                                    //       backgroundColor: Colors.red,
+                                    //       margin: EdgeInsets.zero,
+                                    //       duration: const Duration(
+                                    //           milliseconds: 2500),
+                                    //       boxShadows: [
+                                    //         BoxShadow(
+                                    //             color: Colors.grey,
+                                    //             offset: Offset(-100, 0),
+                                    //             blurRadius: 20),
+                                    //       ],
+                                    //       borderRadius: 0);
+                                    // } else {
+                                    //   FirebaseFirestore.instance
+                                    //       .collection('ExpenseItem')
+                                    //       .add({
+                                    //     'Expense Category': selectedString,
+                                    //     'Amount': double.parse(
+                                    //         amounttxt.text.toString()),
+                                    //     'Date': selectedDate,
+                                    //   }).then((value) async {
+                                    //     fetch();
+                                    //     Get.snackbar(
+                                    //         "Open Close Updated Successfully.",
+                                    //         "Refreshing the Page.",
+                                    //         snackPosition: SnackPosition.BOTTOM,
+                                    //         colorText: Colors.white,
+                                    //         backgroundColor: Colors.green,
+                                    //         margin: EdgeInsets.zero,
+                                    //         duration: const Duration(
+                                    //             milliseconds: 2500),
+                                    //         boxShadows: [
+                                    //           const BoxShadow(
+                                    //               color: Colors.grey,
+                                    //               offset: Offset(-100, 0),
+                                    //               blurRadius: 20),
+                                    //         ],
+                                    //         borderRadius: 0);
+                                    //   });
+                                    // }
                                   },
                                   child: Container(
                                     height: 40,
@@ -190,11 +247,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    var ss;
-                                    selectedDate = DateTime.now();
-                                    selectedString = ss;
-                                    amounttxt.text = '';
-                                    setState(() {});
+                                    clr();
                                   },
                                   child: Container(
                                     height: 40,
@@ -231,227 +284,470 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
                             ),
                           ),
                           Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  SizedBox(
-                                    height: 25,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      RichText(
-                                        text: const TextSpan(
-                                          text: 'Select Expense Category',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: ' *',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.red,
-                                                    fontSize: 14)),
-                                            TextSpan(
-                                                text: ' :',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14)),
-                                          ],
-                                        ),
-                                      ),
                                       SizedBox(
-                                        width: 10,
+                                        height: 25,
                                       ),
-                                      Container(
-                                          width: 300,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          decoration: BoxDecoration(
-                                            color: AppColor_greyBorder,
-                                            border: Border.all(
-                                                color: AppColor_Black),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Select Member',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' *',
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.red,
+                                                        fontSize: 14)),
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
                                           ),
-                                          child: DropdownSearch<String>(
-                                            popupProps: PopupProps.menu(
-                                              showSearchBox: true,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      String item,
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                              width: 250,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 20),
+                                              decoration: BoxDecoration(
+                                                color: AppColor_greyBorder,
+                                                border: Border.all(
+                                                    color: AppColor_Black),
+                                              ),
+                                              child: DropdownSearch<Memberss>(
+                                                filterFn:
+                                                    (Memberss item, String query) {
+                                                  return item.filterFn(query);
+                                                },
+                                                popupProps: PopupProps.menu(
+                                                  showSearchBox: true,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                      Memberss item,
                                                       bool isSelected) {
-                                                return Container(
-                                                  padding: EdgeInsets.all(15),
-                                                  child: Text(
-                                                    item,
+                                                    return Container(
+                                                      padding: EdgeInsets.all(15),
+                                                      child: Text(
+                                                        "${item.firstname} ${item.lastname} - ${item.id}",
+                                                      ),
+                                                    );
+                                                  },
+                                                  fit: FlexFit.loose,
+                                                  showSelectedItems: false,
+                                                  menuProps: const MenuProps(
+                                                    backgroundColor: Colors.white,
+                                                    elevation: 100,
                                                   ),
-                                                );
-                                              },
-                                              fit: FlexFit.loose,
-                                              showSelectedItems: false,
-                                              menuProps: const MenuProps(
-                                                backgroundColor: Colors.white,
-                                                elevation: 100,
-                                              ),
-                                              searchFieldProps:
+                                                  searchFieldProps:
                                                   const TextFieldProps(
-                                                style: TextStyle(fontSize: 12),
-                                                decoration: InputDecoration(
-                                                  isDense: true,
-                                                  hintText: "Search...",
+                                                    style: TextStyle(fontSize: 12),
+                                                    decoration: InputDecoration(
+                                                      isDense: true,
+                                                      hintText: "Search...",
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            dropdownDecoratorProps:
+                                                dropdownDecoratorProps:
                                                 const DropDownDecoratorProps(
-                                              dropdownSearchDecoration:
+                                                  dropdownSearchDecoration:
                                                   InputDecoration(
-                                                enabledBorder:
+                                                    enabledBorder:
                                                     UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
+                                                      borderSide: BorderSide(
+                                                          color:
                                                           Colors.transparent),
-                                                ),
-                                                focusedBorder:
+                                                    ),
+                                                    focusedBorder:
                                                     UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
+                                                      borderSide: BorderSide(
+                                                          color:
                                                           Colors.transparent),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                dropdownBuilder: (context, item) {
+                                                  if (item == null) {
+                                                    return const Text(
+                                                      "Enter Member Name/Code",
+                                                    );
+                                                  } else {
+                                                    return Text(
+                                                      "${item.firstname} ${item.lastname} - ${item.id}",
+                                                    );
+                                                  }
+                                                },
+                                                onChanged: (newValue) {
+                                                  setState(() {
+                                                    selectedmemberss = newValue;
+                                                    mmems = true;
+                                                  });
+                                                },
+                                                items: memberss,
+                                                selectedItem: selectedmemberss,
+                                              )),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Admission Fee',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
                                             ),
-                                            dropdownBuilder: (context, item) {
-                                              if (item == null) {
-                                                return const Text(
-                                                  "Enter Expense Category",
-                                                );
-                                              } else {
-                                                return Text(
-                                                  item,
-                                                );
-                                              }
-                                            },
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                selectedString = newValue;
-                                              });
-                                            },
-                                            items: ExpensecategoryList,
-                                            selectedItem: selectedString,
-                                          )),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      RichText(
-                                        text: const TextSpan(
-                                          text: 'Amount',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: ' *',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.red,
-                                                    fontSize: 14)),
-                                            TextSpan(
-                                                text: ' :',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14)),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 110,
-                                      ),
-                                      SizedBox(
-                                        width: 300,
-                                        child: TextField(
-                                          controller: amounttxt,
-                                          keyboardType: TextInputType.number,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter
-                                                .digitsOnly
-                                          ],
-                                          decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            contentPadding:
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 250,
+                                            child: TextField(
+                                              controller: amounttxt,
+                                              keyboardType: TextInputType.number,
+                                              readOnly: true,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding:
                                                 EdgeInsets.symmetric(
                                                     vertical: 5),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      RichText(
-                                        text: const TextSpan(
-                                          text: 'Date',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: ' *',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.red,
-                                                    fontSize: 14)),
-                                            TextSpan(
-                                                text: ' :',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14)),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 130,
-                                      ),
-                                      SizedBox(
-                                        width: 300,
-                                        child: InkWell(
-                                          onTap: () => _selectDate(context),
-                                          child: AbsorbPointer(
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                fillColor: Colors.white,
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.grey),
-                                                ),
-                                                hintText: selectedDate != null
-                                                    ? "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"
-                                                    : "Select a date",
-                                                hintStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14,
-                                                ),
-                                                suffixIcon: Icon(
-                                                    Icons.calendar_month_sharp,
-                                                    size: 14,
-                                                    color: Colors.grey),
                                               ),
                                             ),
                                           ),
-                                        ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Paid Admission Fee',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' *',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 14)),
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 210,
+                                            child: TextField(
+                                              controller: amounttxt,
+                                              keyboardType: TextInputType.number,
+                                              readOnly: true,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Total Due',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width:40,
+                                          ),
+                                          SizedBox(
+                                            width: 250,
+                                            child: TextField(
+                                              controller: amounttxt,
+                                              keyboardType: TextInputType.number,
+                                              readOnly: true,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'No of Shares',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' *',
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.red,
+                                                        fontSize: 14)),
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 250,
+                                            child: TextField(
+                                              controller: amounttxt,
+                                              keyboardType: TextInputType.number,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Share Amount',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 250,
+                                            child: TextField(
+                                              controller: amounttxt,readOnly:  true,
+                                              keyboardType: TextInputType.number,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Paid Share Amount',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' *',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 14)),
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 210,
+                                            child: TextField(
+                                              controller: amounttxt,
+                                              keyboardType: TextInputType.number,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            text: const TextSpan(
+                                              text: 'Date',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: ' *',
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.red,
+                                                        fontSize: 14)),
+                                                TextSpan(
+                                                    text: ' :',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 55,
+                                          ),
+                                          SizedBox(
+                                            width: 250,
+                                            child: InkWell(
+                                              onTap: () => _selectDate(context),
+                                              child: AbsorbPointer(
+                                                child: TextField(
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                    border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.grey),
+                                                    ),
+                                                    hintText: selectedDate != null
+                                                        ? "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"
+                                                        : "Select a date",
+                                                    hintStyle: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 14,
+                                                    ),
+                                                    suffixIcon: Icon(
+                                                        Icons.calendar_month_sharp,
+                                                        size: 14,
+                                                        color: Colors.grey),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
                                 ],
                               )),
                         ],

@@ -49,7 +49,6 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
   Future<void> fetch() async {
     clr();
     _expenses = [];
-    int i = 0;
     await FirebaseFirestore.instance
         .collection('Member')
         .get()
