@@ -53,6 +53,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
   var _nidnumber = TextEditingController();
   var _birthreginumber = TextEditingController();
   var _age = TextEditingController();
+  var _fee = TextEditingController();
   var _spouse = TextEditingController();
   var _education = TextEditingController();
   bool somiteeselected = false;
@@ -125,6 +126,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
       _nidnumber = TextEditingController(text: "");
       _birthreginumber = TextEditingController(text: "");
       _age = TextEditingController(text: "");
+      _fee = TextEditingController(text: "");
       _spouse = TextEditingController(text: "");
       _education = TextEditingController(text: "");
       selectedGender = ss;
@@ -198,6 +200,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
           'National ID': _nidnumber.text,
           'Birth Registration': _birthreginumber.text,
           'Age': _age.text,
+          'Fee': _fee.text,
           'Date Of Birth': _selectedDate,
           'Spouse': _spouse.text,
           'Education': _education.text,
@@ -252,6 +255,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
           'National ID': _nidnumber.text,
           'Birth Registration': _birthreginumber.text,
           'Age': _age.text,
+          'Fee': _fee.text,
           'Date Of Birth': _selectedDate,
           'Annual Income': _annualincome.text,
           'Spouse': _spouse.text,
@@ -306,6 +310,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
           'National ID': _nidnumber.text,
           'Birth Registration': _birthreginumber.text,
           'Age': _age.text,
+          'Fee': _fee.text,
           'Date Of Birth': _selectedDate,
           'Annual Income': _annualincome.text,
           'Spouse': _spouse.text,
@@ -361,6 +366,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
     _nidnumber = TextEditingController(text: cst.nationalid);
     _birthreginumber = TextEditingController(text: cst.birthregi);
     _age = TextEditingController(text: cst.age);
+    _fee = TextEditingController(text: cst.fee);
     _education = TextEditingController(text: cst.education);
     selectedGender = cst.gender;
     selectedreligion = cst.religion;
@@ -475,7 +481,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
         <String, dynamic>{}) as Map;
     Memberss mst = Memberss(
         somiteename: arguments['Members']["Somitee Name"]?? '',
-        somiteeid: arguments['Members']["Somitee ID"]?? '',
+        somiteeid: arguments['Members']["Somitee ID"]?? '',fee: arguments['Members']["Fee"],
         membertype: arguments['Members']["Member Type"]?? '',dead: arguments['Members']['Dead']?? '',
         occupation: arguments['Members']["Occupation"]?? '',
         firstname: arguments['Members']["First Name"]?? '',loanpendingamount: arguments['Members']["Loan Pending Amount"]?? '',owndepositamount: arguments['Members']["Own deposit Amount"]?? '',
@@ -608,7 +614,7 @@ class _MemberUpdateState extends State<MemberUpdate> {
                 setupgender: _setupgender,
                 nidnumber: _nidnumber,
                 birthreginumber: _birthreginumber,
-                age: _age,
+                age: _age,fee: _fee,
                 spouse: _spouse,
                 education: _education),
 

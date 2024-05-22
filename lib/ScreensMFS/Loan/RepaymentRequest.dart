@@ -95,7 +95,7 @@ class _RepaymentRequestState extends State<RepaymentRequest> {
               occupation: element["Occupation"],
               firstname: element["First Name"],
               lastname: element["Last Name"],
-              fathername: element["Father Name"],
+              fathername: element["Father Name"],fee: element["Fee"],
               mothername: element["Mother Name"],
               gender: element["Gender"],
               religion: element["Religion"],

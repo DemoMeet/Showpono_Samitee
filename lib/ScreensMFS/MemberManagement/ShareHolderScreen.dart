@@ -56,7 +56,7 @@ class _ShareholderScreenState extends State<ShareholderScreen> {
           memberss.add(Memberss(
               somiteename: element["Somitee Name"],
               somiteeid: element["Somitee ID"],
-              membertype: element["Member Type"],
+              membertype: element["Member Type"],fee: element["Fee"] ?? '',
               occupation: element["Occupation"],
               firstname: element["First Name"],
               dead: element['Dead'],

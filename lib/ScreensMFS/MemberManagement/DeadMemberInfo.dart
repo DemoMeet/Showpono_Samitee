@@ -88,7 +88,7 @@ class _DeadMemberInfoState extends State<DeadMemberInfo> {
                 membertype: element["Member Type"],
                 occupation: element["Occupation"],
                 firstname: element["First Name"],
-                lastname: element["Last Name"],
+                lastname: element["Last Name"],fee: element["Fee"],
                 dead: element['Dead'],
                 fathername: element["Father Name"],
                 mothername: element["Mother Name"],

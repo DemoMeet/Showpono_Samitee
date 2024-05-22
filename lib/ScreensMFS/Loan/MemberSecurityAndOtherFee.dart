@@ -8,9 +8,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import '../../../../Constants/Constants.dart';
 import '../../Constants/values.dart';
+import '../../Model/loanSanction.dart';
 import '../../Model/member.dart';
-import '../../ScreensMFS/Widget/Appbar.dart';
-import '../../ScreensMFS/Widget/Appbool.dart';
+import '../Widget/Appbar.dart';
+import '../Widget/Appbool.dart';
 import '../Widget/NavBoolMFS.dart';
 import '../Widget/NavbarScreenMFS.dart';
 
@@ -30,9 +31,11 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
   String electeddate = '';
   bool click = false;
   List<Map<String, dynamic>> _expenses = [];
-  List<Memberss> memberss = [];
-  var selectedmemberss;
-  var sselectedmemberss;
+  List<loanSanction> sanction = [];
+  List<String> ssanction = [];
+  bool bsanction = false;
+  var memberss;
+  var selectedsanction;
   int i = 0;
   var revenustampamounttxt = TextEditingController();
   DateTime revenustampselectedDate = DateTime.now();
@@ -50,53 +53,53 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
     clr();
     _expenses = [];
     await FirebaseFirestore.instance
-        .collection('Member')
+        .collection('LoanSanction')
         .get()
         .then((querySnapshot) {
-      for (var element in querySnapshot.docs) {
-        if (element["Status"] && !element['Dead']) {
-          memberss.add(Memberss(
-              somiteename: element["Somitee Name"],
-              somiteeid: element["Somitee ID"],
-              membertype: element["Member Type"],
-              occupation: element["Occupation"],
-              firstname: element["First Name"],
-              dead: element['Dead'],
-              lastname: element["Last Name"],
-              fathername: element["Father Name"],
-              mothername: element["Mother Name"],
-              gender: element["Gender"] ?? '',
-              religion: element["Religion"],
-              nationalid: element["National ID"],
-              loanpendingamount: element["Loan Pending Amount"],
-              owndepositamount: element["Own deposit Amount"],
-              birthregi: element["Birth Registration"],
-              annualincome: element["Annual Income"],
-              sts: element["Status"],
-              age: element["Age"],
-              education: element["Education"],
-              maritalstatus: element["Marital Status"],
-              mobilenotype: element["Mobile No Type"],
-              mobilenno: element["Mobile No"],
-              presentadd: element["Present Address"],
-              parmaadd: element["Permanent Address"],
-              livingperiod: element["Living Period"],
-              nomaleearner: element["No Female Earner"],
-              nofemaleearner: element["No Male Earner"],
-              id: element.id,
-              headfamily: element["Head Family"],
-              ownhomestead: element["Own HomeStead"],
-              relationwithhead: element["Relation With Head"],
-              landdesc: element["Land Desc"],
-              remarks: element["Remarks"],
-              imageurl: element["ImageURL"],
-              img: element["Image"],
-              birthdate: element["Date Of Birth"].toDate(),
-              sl: 0));
+      for (var json in querySnapshot.docs) {
+        if (json["Status"] == "Approved") {
+          sanction.add(loanSanction(
+              somiteename: json['Somitee Name'],
+              somiteeid: json['Somitee ID'],
+              membername: json['Member Name'],
+              memberid: json['Member ID'],
+              loanpurpose: json["Loan Purpose"],
+              approvedate: json["Approve Date"].toDate(),
+              memberphone: json['Member Phone'],
+              scheme: json["Loan Scheme"],
+              approvedby: json["Approved By"],
+              requestedby: json["Requested By"],
+              category: json['Loan Category'],
+              sanctionlimit: json["Sanction Limit"],
+              installmentfrequency: json["Installment Frequency"],
+              sanctiondate: json["Sanction Date"].toDate(),
+              servicecharge: json["Service Charge"],
+              installmentno: json["Installment No"],
+              installmentamount: json["Installment Amount"],
+              remarks: json["Remarks"],
+              serviceamount: json["Service Amount"],
+              grantorfname: json["Grantor F Name"],
+              grantorffname: json["Grantor F FatherName"],
+              grantorfrelation: json["Grantor F Relation"],
+              grantorfmobile: json["Grantor F Mobile"],
+              grantorfocupasion: json["Grantor F Occupation"],
+              grantorsname: json["Grantor S Name"],
+              grantorsfname: json["Grantor S FatherName"],
+              grantorsrelation: json["Grantor S Relation"],
+              grantorsmobile: json["Grantor S Mobile"],
+              grantorsocupasion: json["Grantor S Occupation"],
+              grantorpname: json["Grantor P Name"],
+              grantorpfname: json["Grantor P FatherName"],
+              grantorprelation: json["Grantor P Relation"],
+              grantorpmobile: json["Grantor P Mobile"],
+              grantorpocupasion: json["Grantor P Occupation"],
+              status: json["Status"],
+              id: json['ID'],
+              sl: json['SL']));
+          ssanction.add(json['ID']);
         }
       }
     });
-
     await FirebaseFirestore.instance.collection('Others Fee').get().then((que) {
       que.docs.forEach((docSnapshot) {
         var data = docSnapshot.data();
@@ -126,7 +129,8 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
 
   clr() {
     var ss;
-    selectedmemberss = ss;
+    selectedsanction = ss;
+    memberss = ss;
     revenustampamounttxt = TextEditingController();
     revenustampselectedDate = DateTime.now();
     processingfeeamounttxt = TextEditingController();
@@ -165,10 +169,59 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
       }
     }
 
+    Future<void> _setupsanction(int ins) async {
+      selectedsanction = sanction[ins];
+      bsanction = true;
+
+      await FirebaseFirestore.instance
+          .collection('Member')
+          .doc(selectedsanction.memberid)
+          .get()
+          .then((element) {
+        memberss = Memberss(
+            somiteename: element["Somitee Name"],
+            somiteeid: element["Somitee ID"],
+            membertype: element["Member Type"],
+            occupation: element["Occupation"],
+            firstname: element["First Name"],
+            lastname: element["Last Name"],
+            dead: element['Dead'],fee: element["Fee"],
+            fathername: element["Father Name"],
+            mothername: element["Mother Name"],
+            loanpendingamount: element["Loan Pending Amount"],
+            owndepositamount: element["Own deposit Amount"],
+            gender: element["Gender"],
+            religion: element["Religion"],
+            sts: element["Status"],
+            nationalid: element["National ID"],
+            birthregi: element["Birth Registration"],
+            annualincome: element["Annual Income"],
+            age: element["Age"],
+            education: element["Education"],
+            maritalstatus: element["Marital Status"],
+            mobilenotype: element["Mobile No Type"],
+            mobilenno: element["Mobile No"],
+            presentadd: element["Present Address"],
+            parmaadd: element["Permanent Address"],
+            livingperiod: element["Living Period"],
+            nomaleearner: element["No Female Earner"],
+            nofemaleearner: element["No Male Earner"],
+            id: element.id,
+            headfamily: element["Head Family"],
+            ownhomestead: element["Own HomeStead"],
+            relationwithhead: element["Relation With Head"],
+            landdesc: element["Land Desc"],
+            remarks: element["Remarks"],
+            imageurl: element["ImageURL"],
+            img: element["Image"],
+            birthdate: element["Date Of Birth"].toDate(),
+            sl: 0);
+      });
+    }
     Future<void> _processingfeeselectDate(BuildContext context) async {
       final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: processingfeeselectedDate ?? DateTime.now(),
+        initialDate: processingfeeselectedDate,
         firstDate: DateTime(1900),
         lastDate: DateTime(2101),
       );
@@ -198,7 +251,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
     Future<void> _memberfeesselectDate(BuildContext context) async {
       final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: memberfeesselectedDate ?? DateTime.now(),
+        initialDate: memberfeesselectedDate,
         firstDate: DateTime(1900),
         lastDate: DateTime(2101),
       );
@@ -237,7 +290,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
         'Revenue Stamp',
         'Processing Fee',
         'Share Savings',
-        'Member Fee',
+        'Lien Money',
         'Loan Pass Book',
         'Loan Pass File'
       ];
@@ -304,7 +357,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                 Spacer(),
                                 InkWell(
                                   onTap: () async {
-                                    if (selectedmemberss != null &&
+                                    if (selectedsanction != null &&
                                         (revenustampamounttxt.text.isNotEmpty ||
                                             processingfeeamounttxt
                                                 .text.isNotEmpty ||
@@ -318,10 +371,10 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                                 .text.isNotEmpty)) {
                                       Map<String, dynamic> data = {
                                         'Member Name':
-                                            selectedmemberss.firstname +
+                                        memberss.firstname +
                                                 ' ' +
-                                                selectedmemberss.lastname,
-                                        'Member ID': selectedmemberss.id,
+                                            memberss.lastname,
+                                        'Member ID': memberss.id,
                                         if (revenustampamounttxt
                                             .text.isNotEmpty)
                                           'Revenue Stamp': {
@@ -345,7 +398,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                             'date': DateTime.now(),
                                           },
                                         if (memberfeeamounttxt.text.isNotEmpty)
-                                          'Member Fee': {
+                                          'Lien Money': {
                                             'amount':
                                                 memberfeeamounttxt.text.trim(),
                                             'date': DateTime.now(),
@@ -365,16 +418,15 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                             'date': DateTime.now(),
                                           },
                                       };
-
                                       DocumentSnapshot docSnapshot =
                                           await FirebaseFirestore.instance
                                               .collection('Others Fee')
-                                              .doc(selectedmemberss.id)
+                                              .doc(selectedsanction.id)
                                               .get();
                                       if (docSnapshot.exists) {
                                         await FirebaseFirestore.instance
                                             .collection('Others Fee')
-                                            .doc(selectedmemberss.id)
+                                            .doc(selectedsanction.id)
                                             .update(data)
                                             .then((value) {
                                           fetch();
@@ -389,7 +441,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                               duration: const Duration(
                                                   milliseconds: 2000),
                                               boxShadows: [
-                                                BoxShadow(
+                                                const BoxShadow(
                                                     color: Colors.grey,
                                                     offset: Offset(-100, 0),
                                                     blurRadius: 20),
@@ -399,7 +451,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                       } else {
                                         await FirebaseFirestore.instance
                                             .collection('Others Fee')
-                                            .doc(selectedmemberss.id)
+                                            .doc(selectedsanction.id)
                                             .set(data)
                                             .then((value) {
                                           fetch();
@@ -414,7 +466,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                               duration: const Duration(
                                                   milliseconds: 2000),
                                               boxShadows: [
-                                                BoxShadow(
+                                                const BoxShadow(
                                                     color: Colors.grey,
                                                     offset: Offset(-100, 0),
                                                     blurRadius: 20),
@@ -531,30 +583,27 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                       SizedBox(
                                         width: 40,
                                       ),
+
                                       Container(
                                           width: 300,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
+                                          padding: EdgeInsets.symmetric(horizontal: 20),
                                           decoration: BoxDecoration(
                                             color: AppColor_greyBorder,
-                                            border: Border.all(
-                                                color: AppColor_Black),
+                                            border: Border.all(color: AppColor_Black),
                                           ),
-                                          child: DropdownSearch<Memberss>(
+                                          child: DropdownSearch<loanSanction>(
                                             filterFn:
-                                                (Memberss item, String query) {
+                                                (loanSanction item, String query) {
                                               return item.filterFn(query);
                                             },
                                             popupProps: PopupProps.menu(
                                               showSearchBox: true,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      Memberss item,
-                                                      bool isSelected) {
+                                              itemBuilder: (BuildContext context,
+                                                  loanSanction item, bool isSelected) {
                                                 return Container(
                                                   padding: EdgeInsets.all(15),
                                                   child: Text(
-                                                    "${item.firstname} ${item.lastname} - ${item.id}",
+                                                    item.id + " - " + item.membername,
                                                   ),
                                                 );
                                               },
@@ -564,8 +613,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                                 backgroundColor: Colors.white,
                                                 elevation: 100,
                                               ),
-                                              searchFieldProps:
-                                                  const TextFieldProps(
+                                              searchFieldProps: const TextFieldProps(
                                                 style: TextStyle(fontSize: 12),
                                                 decoration: InputDecoration(
                                                   isDense: true,
@@ -574,42 +622,38 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                               ),
                                             ),
                                             dropdownDecoratorProps:
-                                                const DropDownDecoratorProps(
-                                              dropdownSearchDecoration:
-                                                  InputDecoration(
-                                                enabledBorder:
-                                                    UnderlineInputBorder(
+                                            const DropDownDecoratorProps(
+                                              dropdownSearchDecoration: InputDecoration(
+                                                enabledBorder: UnderlineInputBorder(
                                                   borderSide: BorderSide(
-                                                      color:
-                                                          Colors.transparent),
+                                                      color: Colors.transparent),
                                                 ),
-                                                focusedBorder:
-                                                    UnderlineInputBorder(
+                                                focusedBorder: UnderlineInputBorder(
                                                   borderSide: BorderSide(
-                                                      color:
-                                                          Colors.transparent),
+                                                      color: Colors.transparent),
                                                 ),
                                               ),
                                             ),
                                             dropdownBuilder: (context, item) {
                                               if (item == null) {
                                                 return const Text(
-                                                  "Enter Member Name/Code",
+                                                  "Enter Sanction ID",
                                                 );
                                               } else {
                                                 return Text(
-                                                  "${item.firstname} ${item.lastname} - ${item.id}",
+                                                  item.id + " - " + item.membername,
                                                 );
                                               }
                                             },
                                             onChanged: (newValue) {
                                               setState(() {
-                                                selectedmemberss = newValue;
-                                                mmems = true;
+                                                _setupsanction(ssanction
+                                                    .indexOf(newValue!.id));
+                                                bsanction = true;
                                               });
                                             },
-                                            items: memberss,
-                                            selectedItem: selectedmemberss,
+                                            items:sanction,
+                                            selectedItem: selectedsanction,
                                           )),
                                     ],
                                   ),
@@ -963,7 +1007,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                       ),
                                       RichText(
                                         text: const TextSpan(
-                                          text: 'Member Fee Amount',
+                                          text: 'Lien Money Amount',
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 14),
@@ -1293,7 +1337,7 @@ class _MemberSecurityAndOtherFeeState extends State<MemberSecurityAndOtherFee> {
                                     ),
                                     DataColumn(
                                       label: Text(
-                                        'Member Fee',
+                                        'Lien Money',
                                         style: TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,

@@ -103,7 +103,16 @@ class _NavbarState extends State<Navbar> {
                     flag: widget.navbool.reports,
                     text: 'Expense',
                     icon: Icons.arrow_drop_down),
-              )
+              ),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(accountscreenPageRoute);
+                },
+                child: NavbarItem(
+                    flag: widget.navbool.reports,
+                    text: 'Account',
+                    icon: Icons.arrow_drop_down),
+              ),
             ],
           )
           : Align(

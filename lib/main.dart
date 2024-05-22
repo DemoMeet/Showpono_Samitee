@@ -22,6 +22,7 @@ import 'Screens/authentication/authentication.dart';
 import 'Screens/roles/add_role.dart';
 import 'Screens/roles/my_profile.dart';
 import 'Screens/roles/roles_list.dart';
+import 'ScreensMFS/BalanceAcc/BalanceAcc.dart';
 import 'ScreensMFS/Expense/Expenses.dart';
 import 'ScreensMFS/Loan/ApproveLoanSanctionRejectList.dart';
 import 'ScreensMFS/Loan/LoanDisbursement.dart';
@@ -40,7 +41,7 @@ import 'ScreensMFS/MemberManagement/DeadMemberInfo.dart';
 import 'ScreensMFS/MemberManagement/EditMembers.dart';
 import 'ScreensMFS/MemberManagement/MemberManagement.dart';
 import 'ScreensMFS/MemberManagement/MemberRegistration.dart';
-import 'ScreensMFS/MemberManagement/MemberSecurityAndOtherFee.dart';
+import 'ScreensMFS/Loan/MemberSecurityAndOtherFee.dart';
 import 'ScreensMFS/MemberManagement/MemberUpdate.dart';
 import 'ScreensMFS/MemberManagement/ShareHolderScreen.dart';
 import 'ScreensMFS/Reports/DailyAffairStatement.dart';
@@ -128,6 +129,13 @@ class MyApp extends StatelessWidget {
                   appbool: appbool,
                   navbool: navbool,
                 ),
+            middlewares: [AuthMiddleware()]),
+        GetPage(
+            name: accountscreenPageRoute,
+            page: () => AccountScreen(
+              appbool: appbool,
+              navbool: navbool,
+            ),
             middlewares: [AuthMiddleware()]),
         GetPage(
             name: repaymentreverseListPageRoute,

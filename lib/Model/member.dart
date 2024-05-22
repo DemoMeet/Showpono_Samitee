@@ -31,6 +31,7 @@ class Memberss {
       landdesc,
       remarks,
       imageurl;
+  late String fee;
   late List<dynamic> deposit;
   late List<dynamic> withdraw;
   late double totaldeposit,totaldisbursement,totalwithdraw,repayment, totalloan;
@@ -109,6 +110,7 @@ class Memberss {
       required this.membertype,
       required this.occupation,
       required this.loanpendingamount,
+        required this.fee,
       required this.owndepositamount,
       required this.firstname,
       required this.lastname,
@@ -229,7 +231,7 @@ class Memberss {
         membertype: json['Member Type'].toString(),
         sts: json['Status'],
         occupation: json['Occupation'].toString(),
-        firstname: json['First Name'].toString(),
+        firstname: json['First Name'].toString(),fee: json['Fee'],
         lastname: json['Last Name'].toString(),dead: json['Dead'],
         fathername: json['Father Name'].toString(),
         mothername: json['Mother Name'].toString(),

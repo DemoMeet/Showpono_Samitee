@@ -54,7 +54,7 @@ class _MemberLedgerState extends State<MemberLedger> {
               membertype: element["Member Type"],
               occupation: element["Occupation"],
               firstname: element["First Name"],
-              dead: element['Dead'],
+              dead: element['Dead'],fee: element["Fee"] ?? '',
               lastname: element["Last Name"],
               fathername: element["Father Name"],
               mothername: element["Mother Name"],

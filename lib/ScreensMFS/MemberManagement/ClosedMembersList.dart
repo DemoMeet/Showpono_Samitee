@@ -45,7 +45,7 @@ class _ClosedMembersListState extends State<ClosedMembersList> {
                 somiteename: element["Somitee Name"],
                 somiteeid: element["Somitee ID"],
                 membertype: element["Member Type"],
-                occupation: element["Occupation"],
+                occupation: element["Occupation"],fee: element["Fee"],
                 firstname: element["First Name"],
                 lastname: element["Last Name"],
                 dead: element['Dead'],

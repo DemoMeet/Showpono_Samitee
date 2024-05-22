@@ -358,35 +358,6 @@ class _NavbarScreenMFSState extends State<NavbarScreenMFS> {
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onHover: (val) {
-                                setState(() {
-                                  if (val) {
-                                    itemColor7 = AppColor_hover1;
-                                    textColor7 = Colors.white;
-                                  } else {
-                                    itemColor7 = AppColor_Blue;
-                                    textColor7 = Colors.black;
-                                  }
-                                });
-                              },
-                              onTap: () {
-                                Get.toNamed(membersfeeandothersPageRoute);
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.only(
-                                      top: 10, left: 20, bottom: 10),
-                                  height: 40,
-                                  width: 200,
-                                  color: itemColor7,
-                                  child: Text(
-                                    "Members Others Fee Information",
-                                    style: TextStyle(
-                                      color: textColor7,
-                                      fontSize: 12,
-                                    ),
-                                  )),
-                            ),
                           ],
                         ),
                       )
@@ -771,6 +742,35 @@ class _NavbarScreenMFSState extends State<NavbarScreenMFS> {
                                   ],
                                 ),
                               ),
+                            ),
+                            InkWell(
+                              onHover: (val) {
+                                setState(() {
+                                  if (val) {
+                                    itemColor7 = AppColor_hover1;
+                                    textColor7 = Colors.white;
+                                  } else {
+                                    itemColor7 = AppColor_Blue;
+                                    textColor7 = Colors.black;
+                                  }
+                                });
+                              },
+                              onTap: () {
+                                Get.toNamed(membersfeeandothersPageRoute);
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.only(
+                                      top: 10, left: 20, bottom: 10),
+                                  height: 40,
+                                  width: 200,
+                                  color: itemColor7,
+                                  child: Text(
+                                    "Members Others Fee Information",
+                                    style: TextStyle(
+                                      color: textColor7,
+                                      fontSize: 12,
+                                    ),
+                                  )),
                             ),
                           ],
                         ),
@@ -2119,74 +2119,74 @@ class _NavbarScreenMFSState extends State<NavbarScreenMFS> {
                           ),
                         ),
                       ),
-                      // InkWell(
-                      //   onHover: (val) {
-                      //     setState(() {
-                      //       if (val) {
-                      //         itemColor18 = AppColor_hover1;
-                      //         textColor18 = Colors.white;
-                      //       } else {
-                      //         itemColor18 = AppColor_Blue;
-                      //         textColor18 = Colors.black;
-                      //       }
-                      //     });
-                      //   },
-                      //   onTap: () {
-                      //     Get.toNamed(botransfertransactionPageRoute);
-                      //   },
-                      //   child: Container(
-                      //     padding: EdgeInsets.only(
-                      //         top: 10, left: 20, right: 10, bottom: 10),
-                      //     height: 40,
-                      //     width: 200,
-                      //     color: itemColor18,
-                      //     child: Row(
-                      //       children: [
-                      //         Text(
-                      //           "BO Transaction",
-                      //           style: TextStyle(
-                      //             fontSize: 12,
-                      //             color: textColor18,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // InkWell(
-                      //   onHover: (val) {
-                      //     setState(() {
-                      //       if (val) {
-                      //         itemColor19 = AppColor_hover1;
-                      //         textColor19 = Colors.white;
-                      //       } else {
-                      //         itemColor19 = AppColor_Blue;
-                      //         textColor19 = Colors.black;
-                      //       }
-                      //     });
-                      //   },
-                      //   onTap: () {
-                      //     Get.toNamed(botransfertransactionlistPageRoute);
-                      //   },
-                      //   child: Container(
-                      //     padding: EdgeInsets.only(
-                      //         top: 10, left: 20, right: 10, bottom: 10),
-                      //     height: 40,
-                      //     width: 200,
-                      //     color: itemColor19,
-                      //     child: Row(
-                      //       children: [
-                      //         Text(
-                      //           "BO Transaction List",
-                      //           style: TextStyle(
-                      //             fontSize: 12,
-                      //             color: textColor19,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      InkWell(
+                        onHover: (val) {
+                          setState(() {
+                            if (val) {
+                              itemColor18 = AppColor_hover1;
+                              textColor18 = Colors.white;
+                            } else {
+                              itemColor18 = AppColor_Blue;
+                              textColor18 = Colors.black;
+                            }
+                          });
+                        },
+                        onTap: () {
+                          Get.toNamed(botransfertransactionPageRoute);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 10, left: 20, right: 10, bottom: 10),
+                          height: 40,
+                          width: 200,
+                          color: itemColor18,
+                          child: Row(
+                            children: [
+                              Text(
+                                "BO Transaction",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: textColor18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onHover: (val) {
+                          setState(() {
+                            if (val) {
+                              itemColor19 = AppColor_hover1;
+                              textColor19 = Colors.white;
+                            } else {
+                              itemColor19 = AppColor_Blue;
+                              textColor19 = Colors.black;
+                            }
+                          });
+                        },
+                        onTap: () {
+                          Get.toNamed(botransfertransactionlistPageRoute);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 10, left: 20, right: 10, bottom: 10),
+                          height: 40,
+                          width: 200,
+                          color: itemColor19,
+                          child: Row(
+                            children: [
+                              Text(
+                                "BO Transaction List",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: textColor19,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 )

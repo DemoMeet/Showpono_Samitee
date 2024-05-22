@@ -50,6 +50,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
   var _nidnumber = TextEditingController();
   var _birthreginumber = TextEditingController();
   var _age = TextEditingController();
+  var _fee = TextEditingController();
   var _spouse = TextEditingController();
   var _education = TextEditingController();
   var selectedGender;
@@ -120,6 +121,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
       _nidnumber = TextEditingController(text: "");
       _birthreginumber = TextEditingController(text: "");
       _age = TextEditingController(text: "");
+      _fee = TextEditingController(text: "");
       _spouse = TextEditingController(text: "");
       _education = TextEditingController(text: "");
       selectedGender = ss;
@@ -217,6 +219,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
           'Birth Registration': _birthreginumber.text,
           'Age': _age.text,
           'Date Of Birth': _selectedDate,
+          'Fee': _fee.text,
           'Spouse': _spouse.text,
           'Education': _education.text,
           'Marital Status': maritalstatus,
@@ -276,7 +279,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
           'Religion': selectedreligion,
           'National ID': _nidnumber.text,
           'Birth Registration': _birthreginumber.text,
-          'Age': _age.text,
+          'Age': _fee.text,
           'Date Of Birth': _selectedDate,
           'Spouse': _spouse.text,
           'Education': _education.text,
@@ -500,7 +503,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
                   mothername: _mothername,
                   setupgender: _setupgender,
                   nidnumber: _nidnumber,
-                  birthreginumber: _birthreginumber,
+                  birthreginumber: _birthreginumber,fee: _fee,
                   age: _age,
                   spouse: _spouse,
                   education: _education),

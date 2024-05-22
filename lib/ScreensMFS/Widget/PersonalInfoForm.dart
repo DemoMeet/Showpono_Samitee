@@ -11,6 +11,7 @@ class PersonalInfoForm extends StatefulWidget {
   var nidnumber;
   var birthreginumber;
   var age;
+  var fee;
   var spouse;
   var education;
 
@@ -37,6 +38,7 @@ class PersonalInfoForm extends StatefulWidget {
       required this.nidnumber,
       required this.birthreginumber,
       required this.age,
+        required this.fee,
       required this.spouse,
       required this.education});
 
@@ -634,7 +636,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                       ],
                     ),
                     SizedBox(
-                      height: ScreenWidth/38.4,
+                      height: 10,
                     ),
                     Row(
                       children: [
@@ -661,7 +663,34 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                       ],
                     ),
                     SizedBox(
-                      height: ScreenWidth/38.4,
+                      height:10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Account Opening Fee : ",
+                          style: TextStyle(
+                            fontSize: ScreenWidth/109.71,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        SizedBox(
+                          height: ScreenWidth/30.72,
+                          width: ScreenWidth/5.12,
+                          child: TextField(controller: widget.fee,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding:
+                              EdgeInsets.symmetric(vertical: ScreenWidth/768),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Row(
                       children: [

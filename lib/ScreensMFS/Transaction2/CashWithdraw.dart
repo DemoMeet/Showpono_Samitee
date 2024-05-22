@@ -54,7 +54,7 @@ class _CashWithdrawState extends State<CashWithdraw> {
               somiteeid: element["Somitee ID"],
               membertype: element["Member Type"],
               occupation: element["Occupation"],
-              firstname: element["First Name"],
+              firstname: element["First Name"],fee: element["Fee"] ?? '',
               dead: element['Dead'],
               lastname: element["Last Name"],
               fathername: element["Father Name"],
@@ -116,24 +116,24 @@ class _CashWithdrawState extends State<CashWithdraw> {
           ],
           borderRadius: 0);
     } else {
-      // DocumentSnapshot ds = await FirebaseFirestore.instance
-      //     .collection('BalanceAccount')
-      //     .doc('0')
-      //     .get();
-      // if (ds['Balance'] < double.parse(withdrawamount.text)) {
-      //   Get.snackbar(
-      //       "Balance Withdraw Request Failed.", "Insufficient Balance in Cash!",
-      //       snackPosition: SnackPosition.BOTTOM,
-      //       colorText: Colors.white,
-      //       backgroundColor: Colors.red,
-      //       margin: EdgeInsets.zero,
-      //       duration: const Duration(milliseconds: 2000),
-      //       boxShadows: [
-      //         const BoxShadow(
-      //             color: Colors.grey, offset: Offset(-100, 0), blurRadius: 20),
-      //       ],
-      //       borderRadius: 0);
-      // } else {
+      DocumentSnapshot ds = await FirebaseFirestore.instance
+          .collection('BalanceAccount')
+          .doc('0')
+          .get();
+      if (ds['Balance'] < double.parse(withdrawamount.text)) {
+        Get.snackbar(
+            "Balance Withdraw Request Failed.", "Insufficient Balance in Cash!",
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: Colors.white,
+            backgroundColor: Colors.red,
+            margin: EdgeInsets.zero,
+            duration: const Duration(milliseconds: 2000),
+            boxShadows: [
+              const BoxShadow(
+                  color: Colors.grey, offset: Offset(-100, 0), blurRadius: 20),
+            ],
+            borderRadius: 0);
+      } else {
         QuerySnapshot querySnapshot =
             await FirebaseFirestore.instance.collection('Cash Withdraw').get();
         FirebaseFirestore.instance.collection('Cash Withdraw').add({
@@ -155,12 +155,12 @@ class _CashWithdrawState extends State<CashWithdraw> {
           'Status': false,
           'Remarks': remarks.text,
         }).then((value) async {
-          // await FirebaseFirestore.instance
-          //     .collection('BalanceAccount')
-          //     .doc('0')
-          //     .update({
-          //   'Balance': FieldValue.increment(-double.parse(withdrawamount.text)),
-          // });
+          await FirebaseFirestore.instance
+              .collection('BalanceAccount')
+              .doc('0')
+              .update({
+            'Balance': FieldValue.increment(-double.parse(withdrawamount.text)),
+          });
           await FirebaseFirestore.instance
               .collection('Member')
               .doc(selectedmemberss.id)
@@ -185,7 +185,7 @@ class _CashWithdrawState extends State<CashWithdraw> {
                 borderRadius: 0);
           });
         });
-     // }
+     }
     }
   }
 
