@@ -32,7 +32,7 @@ class _LoanDisbursementState extends State<LoanDisbursement> {
   List<loanSanction> sanction = [];
   List<String> ssanction = [];
   bool bsanction = false;
- // List<Accountss> accounts = [];
+  // List<Accountss> accounts = [];
   var selectedaccount;
   var ssscheme;
   var memberss;
@@ -155,9 +155,8 @@ class _LoanDisbursementState extends State<LoanDisbursement> {
         await FirebaseFirestore.instance.collection('LoanDisbursed').get();
 
     int numberOfItems = querySnapshot.size;
-    if (
-    selectedsanction == null ||
-     //   selectedaccount == null ||
+    if (selectedsanction == null ||
+        //   selectedaccount == null ||
         condisbursed.text == "" ||
         connarration.text == "") {
       Get.snackbar(
@@ -296,7 +295,8 @@ class _LoanDisbursementState extends State<LoanDisbursement> {
             occupation: element["Occupation"],
             firstname: element["First Name"],
             lastname: element["Last Name"],
-            dead: element['Dead'],fee: element["Fee"],
+            dead: element['Dead'],
+            fee: element["Fee"],
             fathername: element["Father Name"],
             mothername: element["Mother Name"],
             loanpendingamount: element["Loan Pending Amount"],
@@ -322,7 +322,6 @@ class _LoanDisbursementState extends State<LoanDisbursement> {
             ownhomestead: element["Own HomeStead"],
             relationwithhead: element["Relation With Head"],
             landdesc: element["Land Desc"],
-            
             remarks: element["Remarks"],
             imageurl: element["ImageURL"],
             img: element["Image"],
@@ -401,7 +400,7 @@ class _LoanDisbursementState extends State<LoanDisbursement> {
                                   memberss: memberss,
                                   // accounts: accounts,
                                   // selectedaccount: selectedaccount,
-                               //   setupaccount: _setupaccount,
+                                  //   setupaccount: _setupaccount,
                                   selectedsanction: selectedsanction,
                                   bsanction: bsanction,
                                   scheme: ssscheme),
@@ -418,7 +417,7 @@ class _LoanDisbursementState extends State<LoanDisbursement> {
                                   // accounts: accounts,
                                   // selectedaccount: selectedaccount,
                                   selectedsanction: selectedsanction,
-                                //  setupaccount: _setupaccount,
+                                  //  setupaccount: _setupaccount,
                                   bsanction: bsanction,
                                   scheme: ssscheme),
 

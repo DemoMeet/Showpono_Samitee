@@ -41,7 +41,7 @@ class _LoanRepaymentRequestListState extends State<LoanRepaymentRequestList> {
               somiteename: json['Somitee Name'],
               somiteeid: json['Somitee ID'],
               membername: json['Member Name'],
-              id:json['ID'],
+              id: json['ID'],
               approve: json['Approve'],
               memberid: json['Member ID'],
               disbursedamount: json["Disbursed Amount"],
@@ -281,81 +281,88 @@ class _LoanRepaymentRequestListState extends State<LoanRepaymentRequestList> {
                                               fontSize: 12,
                                             )),
                                       ),
-                                      DataCell(
-                                          snapshot.data[index].status
-                                              ?InkWell(
-                                            onTap: () {
-
-                                            },
-                                            child: Container(
-                                                padding: EdgeInsets.all(4.0),
-                                                decoration: BoxDecoration(
-                                                    color: AppColor_Blue,
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        100)),
-                                                child: const Icon(
-                                                  Icons.edit,
-                                                  size: 16,
-                                                  color: AppColor_White,
-                                                )),
-                                          ):
-                                          Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              FirebaseFirestore.instance
-                                                  .collection('LoanRepayment')
-                                                  .doc(snapshot.data[index].id)
-                                                  .update({
-                                                "Status": true,
-                                                "Approve": true,
-                                                'Approve Date': DateTime.now(),
-                                              }).then((value) {
-                                                setState(() {});
-                                              });
-                                            },
-                                            child: Container(
-                                                padding: EdgeInsets.all(4.0),
-                                                decoration: BoxDecoration(
-                                                    color: AppColor_Blue,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100)),
-                                                child: const Icon(
-                                                  Icons.check,
-                                                  size: 16,
-                                                  color: AppColor_White,
-                                                )),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              FirebaseFirestore.instance
-                                                  .collection('LoanRepayment')
-                                                  .doc(snapshot.data[index].id)
-                                                  .update({
-                                                "Status": true,
-                                                "Approve": false,
-                                                'Approve Date': DateTime.now(),
-                                              }).then((value) {
-                                                setState(() {});
-                                              });
-                                            },
-                                            child: Container(
-                                                padding: EdgeInsets.all(4.0),
-                                                decoration: BoxDecoration(
-                                                    color: AppColor_Blue,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100)),
-                                                child: const Icon(
-                                                  Icons.close,
-                                                  size: 16,
-                                                  color: AppColor_White,
-                                                )),
-                                          ),
-                                        ],
-                                      )),
+                                      DataCell(snapshot.data[index].status
+                                          ? InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                  padding: EdgeInsets.all(4.0),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColor_Blue,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                                  child: const Icon(
+                                                    Icons.edit,
+                                                    size: 16,
+                                                    color: AppColor_White,
+                                                  )),
+                                            )
+                                          : Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            'LoanRepayment')
+                                                        .doc(snapshot
+                                                            .data[index].id)
+                                                        .update({
+                                                      "Status": true,
+                                                      "Approve": true,
+                                                      'Approve Date':
+                                                          DateTime.now(),
+                                                    }).then((value) {
+                                                      setState(() {});
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(4.0),
+                                                      decoration: BoxDecoration(
+                                                          color: AppColor_Blue,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100)),
+                                                      child: const Icon(
+                                                        Icons.check,
+                                                        size: 16,
+                                                        color: AppColor_White,
+                                                      )),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            'LoanRepayment')
+                                                        .doc(snapshot
+                                                            .data[index].id)
+                                                        .update({
+                                                      "Status": true,
+                                                      "Approve": false,
+                                                      'Approve Date':
+                                                          DateTime.now(),
+                                                    }).then((value) {
+                                                      setState(() {});
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(4.0),
+                                                      decoration: BoxDecoration(
+                                                          color: AppColor_Blue,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100)),
+                                                      child: const Icon(
+                                                        Icons.close,
+                                                        size: 16,
+                                                        color: AppColor_White,
+                                                      )),
+                                                ),
+                                              ],
+                                            )),
                                     ],
                                   );
                                 }),
