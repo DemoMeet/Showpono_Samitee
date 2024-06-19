@@ -279,7 +279,7 @@ class _MemberRegistrationState extends State<MemberRegistration> {
           'Religion': selectedreligion,
           'National ID': _nidnumber.text,
           'Birth Registration': _birthreginumber.text,
-          'Age': _fee.text,
+          'Age': _age.text, 'Fee': _fee.text,
           'Date Of Birth': _selectedDate,
           'Spouse': _spouse.text,
           'Education': _education.text,
